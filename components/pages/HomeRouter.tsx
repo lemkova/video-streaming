@@ -9,6 +9,7 @@ import { AuthState, logout } from '../logic/authSlice'
 import { useEffect } from 'react'
 import Router from 'next/router'
 import Navbar from '../Navbar'
+import Movie from '../Movie'
 
 const HomeRouter : NextPage = () => {
     const moviesList = useSelector((state: RootState) => state.movies.moviesList)
@@ -26,33 +27,19 @@ const HomeRouter : NextPage = () => {
     },[authState.isLoginSuccess])
 
     return (
-        <div>
+        <div className="bg-[#2d3436] h-full w-full text-white">
             <Navbar/>
             <h1>Movies</h1>
             <button onClick={doFetchMovies}>Get Movies</button>
-            <button onClick={() => {dispatch(logout())}}>Logout</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Year</th>
-                        <th>Poster</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        moviesList.map((e : any, id: number) => {
-                            return (
-                                <tr key={id}>
-                                    <td>{e.Title}</td>
-                                    <td>{e.Year}</td>
-                                    <td className='w-40 h-40'><img src={e.Poster}/></td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>            
+            <div className='flex flex-wrap justify-center'>
+            {
+                moviesList && moviesList.map((e : any, id: number) => {
+                    return (
+                        <Movie key={id} title={e.Title} poster={e.Poster} />
+                    )
+                })
+            }   
+            </div>         
         </div>
     )
 }
