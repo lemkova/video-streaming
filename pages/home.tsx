@@ -1,11 +1,22 @@
 import React from 'react'
-import { NextPage } from 'next'
-import HomeRouter from '../components/pages/HomeRouter'
+import { NextPage,GetServerSideProps } from 'next'
+import HomeRouter, { PropsData } from '../components/pages/HomeRouter'
+import axios from 'axios'
 
-const Page : NextPage = () => {
+const MOVIES_ENDPOINT_URL = 'https://www.omdbapi.com/?s=Marvel&apikey=3399d597'
+
+const Page : NextPage<PropsData> = (props: PropsData) => {
+
     return (
-        <HomeRouter/>
+        <HomeRouter data={props.data}/>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const res = await axios.get(MOVIES_ENDPOINT_URL);
+    const data = res.data
+    return { props: { data } }
+
 }
 
 export default Page

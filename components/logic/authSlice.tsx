@@ -57,9 +57,10 @@ const callLoginApi = (email: string, password: string): Promise<LoginResponse> =
     })
 }
 
-export const authLoginApi = createAsyncThunk<LoginResponse,login,{ rejectValue: LoginResponse }>(
+export const authLoginApi = createAsyncThunk<LoginResponse,login,{ rejectValue: LoginResponse }>
+    (
     'auth/login',
-    async ({email, password} : login, {rejectWithValue}) =>{
+    async ({email, password}, {rejectWithValue}) =>{
         try {
             const response = await callLoginApi(email, password)
             return (response) as LoginResponse

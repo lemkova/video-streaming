@@ -2,12 +2,15 @@ import { NextPage } from 'next'
 import React from 'react'
 
 type MovieProps = {
+    key?: number,
     title: string,
     poster: string
 }
 
-const Movie : NextPage = ({title, poster} : MovieProps) => {
+const Movie : NextPage<MovieProps> = (props : MovieProps) => {
 
+    let title = props.title
+    let poster = props.poster
     let title_trim = title.length > 28 ? (title.slice(0, 25).slice(-1) === ' ' ? title.slice(0, 24) : title.slice(0, 25)) + "..." : title
     return (
         <div className="w-[250px] h-[400px] relative cursor-pointer m-[1em] hover:shadow-2xl">
@@ -15,7 +18,7 @@ const Movie : NextPage = ({title, poster} : MovieProps) => {
         <div>
             <img
                     className='w-[250px] h-[400px] object-cover'
-                    width="200"
+                    width="250"
                     title={title}
                     src={poster}
                 />

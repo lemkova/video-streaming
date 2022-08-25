@@ -1,44 +1,48 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
 
-const MOVIES_URL: string = 'https://www.omdbapi.com/?s=Marvel&apikey=3399d597'
+const MOVIES_URL = 'https://www.omdbapi.com/'
+const API_KEY = '3399d597'
 
 export type MoviesState = {
-    moviesList: Array<any>,
-    count: number
+    moviesList: Array<any> | undefined,
+    isLoading: boolean
 }
 
 const initialState: MoviesState = {
-    moviesList: [],
-    count: 1
+    moviesList: undefined,
+    isLoading: false
 }
 
-export const fetchMovies = createAsyncThunk<any,void, {state: RootState}>('movies/fetchMovies', async (_, {getState}) => {
-    const state = getState()
-    console.log(state.movies.count.toString())
-    const response = await axios.get(MOVIES_URL + '&page=' + state.movies.count.toString())
+interface SearchInput {
+    title: string
+}
+
+export const fetchMovies = createAsyncThunk<any,SearchInput, {state: RootState}>
+(
+    'movies/searchMovies', 
+    async ({title}) => {
+    const response = await axios.get(MOVIES_URL, {params: {
+        apikey: API_KEY,
+        s: title
+    }})
     return (response.data) as any
 })
 
 const moviesSlice = createSlice({
     name: 'movies',
     initialState,
-    reducers: {
-        increment: (state: MoviesState) => {
-            state.count += 1;
-        },
-        decrement: (state: MoviesState) => {
-            state.count -= 1;
-        },        
-    },
+    reducers: {},
     extraReducers(builder) {
         builder.addCase(fetchMovies.fulfilled, (state : MoviesState, action) => {
-            action.payload.Search.forEach((element: any) => {
-                state.moviesList.push(element)
-            })
-            state.count += 1
+            state.moviesList = action.payload.Search
+            state.isLoading = false
         })
+        builder.addCase(fetchMovies.pending, (state : MoviesState) => {
+            state.isLoading = true
+        })        
     }
 })
 

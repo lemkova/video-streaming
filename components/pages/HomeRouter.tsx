@@ -2,23 +2,36 @@ import React from 'react'
 import { NextPage } from 'next'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMovies } from '../logic/movieSlice'
 import { RootState, AppDispatch } from '../logic/store'
-import { AuthState, logout } from '../logic/authSlice'
+import { AuthState } from '../logic/authSlice'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Router from 'next/router'
 import Navbar from '../Navbar'
 import Movie from '../Movie'
 
-const HomeRouter : NextPage = () => {
+export interface PropsData {
+    data?: any
+}
+
+type MoviesData = Array<any>
+
+const HomeRouter : NextPage<PropsData> = (props: PropsData) => {
     const moviesList = useSelector((state: RootState) => state.movies.moviesList)
     const authState: AuthState = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch<AppDispatch>()
 
-    const doFetchMovies = () : void => {
-        dispatch(fetchMovies())
-    }
+    const [movies, setMovies] = useState<MoviesData>([]);
+
+    useEffect(() => {
+        if(moviesList !== undefined){
+            setMovies(moviesList)
+        }
+    },[moviesList])
+
+    useEffect(() => {
+        setMovies(props.data.Search)
+    },[])
 
     useEffect(() => {
         if(!authState.isLoginSuccess){
@@ -27,13 +40,11 @@ const HomeRouter : NextPage = () => {
     },[authState.isLoginSuccess])
 
     return (
-        <div className="bg-[#2d3436] h-full w-full text-white">
-            <Navbar/>
-            <h1>Movies</h1>
-            <button onClick={doFetchMovies}>Get Movies</button>
+        <div className="bg-[#303030] h-full w-full text-white">
+            <Navbar isHome/>
             <div className='flex flex-wrap justify-center'>
             {
-                moviesList && moviesList.map((e : any, id: number) => {
+                movies && movies.map((e : any, id: number) => {
                     return (
                         <Movie key={id} title={e.Title} poster={e.Poster} />
                     )
