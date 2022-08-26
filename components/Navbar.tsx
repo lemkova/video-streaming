@@ -15,6 +15,7 @@ const Navbar : NextPage<NavbarProps> = (props) => {
 
   const dispatch = useDispatch<AppDispatch>()
   const searchLoading = useSelector((state: RootState) => state.movies.isLoading)
+  const modalLoading = useSelector((state: RootState) => state.movies.isModalLoading)
 
   const [search, setSearch] = useState<string>();
 
@@ -40,7 +41,7 @@ const Navbar : NextPage<NavbarProps> = (props) => {
         { props.isHome &&
 
         <div className='flex items-center'>
-          {searchLoading &&
+          {(searchLoading || modalLoading) &&
           <FontAwesomeIcon size='lg' icon={faSpinner} title="Loading..." className='fa-spin'/>
           }
           <button 

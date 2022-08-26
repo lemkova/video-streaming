@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import Router from 'next/router'
 import Navbar from '../Navbar'
 import Movie from '../Movie'
+import MovieDesc from '../MovieDesc'
 
 export interface PropsData {
     data?: any
@@ -18,6 +19,7 @@ type MoviesData = Array<any>
 
 const HomeRouter : NextPage<PropsData> = (props: PropsData) => {
     const moviesList = useSelector((state: RootState) => state.movies.moviesList)
+    const showModal = useSelector((state: RootState) => state.movies.modalState)
     const authState: AuthState = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch<AppDispatch>()
 
@@ -40,18 +42,24 @@ const HomeRouter : NextPage<PropsData> = (props: PropsData) => {
     },[authState.isLoginSuccess])
 
     return (
-        <div className="bg-[#303030] h-full w-full text-white">
-            <Navbar isHome/>
-            <div className='flex flex-wrap justify-center'>
-            {
-                movies && movies.map((e : any, id: number) => {
-                    return (
-                        <Movie key={id} title={e.Title} poster={e.Poster} />
-                    )
-                })
-            }   
-            </div>         
-        </div>
+        <>
+            { showModal &&
+                <MovieDesc />
+
+            }
+            <div className="bg-[#303030] h-full w-full text-white">
+                <Navbar isHome/>
+                <div className='flex flex-wrap justify-center'>
+                {
+                    movies && movies.map((e : any, id: number) => {
+                        return (
+                            <Movie key={id} title={e.Title} poster={e.Poster} mid={e.imdbID} />
+                        )
+                    })
+                }   
+                </div>         
+            </div>
+        </>
     )
 }
 
