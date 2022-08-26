@@ -47,7 +47,7 @@ const HomeRouter : NextPage<PropsData> = (props: PropsData) => {
                 <MovieDesc />
 
             }
-            <div className="bg-[#303030] h-full w-full text-white">
+            <div className="bg-[#303030] min-h-screen w-full text-white">
                 <Navbar isHome/>
                 <div className='flex flex-wrap justify-center'>
                 {

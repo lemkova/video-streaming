@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from './logic/store'
 import { fetchMovies } from './logic/movieSlice'
 import { logout } from './logic/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 
 interface NavbarProps {
   isHome?: boolean
@@ -22,6 +23,8 @@ const Navbar : NextPage<NavbarProps> = (props) => {
   const onSearchChange = (event : React.ChangeEvent<HTMLInputElement> ) => {
     setSearch(event.target.value)
   }
+
+  const router = useRouter()
 
   const doSearch = (event : React.SyntheticEvent) => {
     event.preventDefault()
@@ -57,6 +60,12 @@ const Navbar : NextPage<NavbarProps> = (props) => {
             onChange={onSearchChange}
           />
         </div>
+        }
+        { !props.isHome &&
+          <button className='cursor-pointer mx-4'
+          onClick={()=>{router.push('/home')}}>
+            <h1 className='text-slate-200'>Home</h1>
+          </button>
         }
         <button
               className='bg-red-600 px-6 py-2 rounded cursor-pointer text-white'
