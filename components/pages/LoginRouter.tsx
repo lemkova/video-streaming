@@ -39,12 +39,12 @@ const LoginRouter : NextPage = () => {
   },[authState.isLoginSuccess])
 
   return (
-    <div className='w-full h-screen'>
-      <Image
+    <div className='w-full h-scree bg-flixbg'>
+    <Image
             className='hidden sm:block absolute w-full h-full object-cover'
             src={bg}
             alt='/'
-        />
+        /> 
       <div className='bg-black/60 fixed top-0 left-0 w-full h-screen'></div>
       <div className='fixed w-full px-4 py-24 z-50'>
         <div className='max-w-[450px] h-[400px] mx-auto bg-black/75 text-white'>

@@ -32,7 +32,9 @@ const HomeRouter : NextPage<PropsData> = (props: PropsData) => {
     },[moviesList])
 
     useEffect(() => {
-        setMovies(props.data.Search)
+        if(moviesList == undefined){
+            setMovies(props.data.Search)
+        }
     },[])
 
     useEffect(() => {

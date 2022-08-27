@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import Navbar from '../../components/Navbar'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Image from 'next/image'
 
 const MOVIES_URL = 'https://www.omdbapi.com/'
 const API_KEY = '3399d597'
@@ -26,10 +27,9 @@ const Movie : NextPage = () => {
       const data = res.data
       setMovieData(data)
       setShow(true)
-      console.log(movieData)
     }
     fetchData().catch(console.error)
-  },[])
+  },[mid])
 
   return (
     <div className='bg-[#2d3436] min-h-screen'>
@@ -37,7 +37,7 @@ const Movie : NextPage = () => {
       { show &&
       <div className='bg-[#636e72] h-[768px] mx-20 mt-8 py-6 px-6 rounded-lg flex'>
         <div>
-          <img src={movieData.Poster}/>
+          <Image src={movieData.Poster} alt='poster' height='400' width='250'/>
         </div>
         <div className='mx-4'>
           <p className='text-slate-200'>

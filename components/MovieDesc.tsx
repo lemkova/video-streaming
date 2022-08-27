@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from './logic/store'
 import {closeModal} from './logic/movieSlice'
 import {useRouter} from 'next/router'
+import Image from 'next/image'
 
 const MovieDesc : NextPage = () => {
   const movieDetails = useSelector((state: RootState) => state.movies.modalInfo)
@@ -37,7 +38,7 @@ const MovieDesc : NextPage = () => {
                 <div className="relative p-6 flex-auto">
                   <div>
                     <div>
-                      <img src={movieDetails.Poster}/>
+                      <Image src={movieDetails.Poster} alt='poster' width='250' height='400'/>
                     </div>
                     <div>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">

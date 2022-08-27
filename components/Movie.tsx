@@ -3,6 +3,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from './logic/store'
 import {fetchMovieDetails} from './logic/movieSlice'
+import Image from 'next/image'
 
 type MovieProps = {
     key?: number,
@@ -24,11 +25,13 @@ const Movie : NextPage<MovieProps> = (props : MovieProps) => {
         onClick={()=>{dispatch(fetchMovieDetails({id: mid}))}}>
             <p className="absolute bottom-0 w-[250px] h-[50px] m-0 text-center py-[12px] px-0 font-semibold box-border text-white bg-[#636e72]">{title_trim}</p>
             <div>
-                <img
+                <Image
                         className='w-[250px] h-[400px] object-cover'
                         width="250"
+                        height='350'
                         title={title}
                         src={poster}
+                        alt={title}
                     />
             </div>
         </div>
